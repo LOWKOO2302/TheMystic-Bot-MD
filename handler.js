@@ -668,7 +668,7 @@ export async function handler(chatUpdate) {
       console.error(e);
     }
 
-    const idioma = global.db.data.users[m.sender]?.language ?? 'es'; // is null? np the operator ?? fix that (i hope)
+    const idioma = global.db.data.users[m.sender]?.language || global.defaultLenguaje; // is null? np the operator ?? fix that (i hope)
     const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
     const tradutor = _translate.handler.handler
 
@@ -1068,17 +1068,12 @@ ${tradutor.texto1[1]} ${messageNumber}/3
  * @param {import("baileys").BaileysEventMap<unknown>['group-participants.update']} groupsUpdate
  */
 export async function participantsUpdate({ id, participants, action }) {
-  /************************
-   * Opção de tradução de idioma
-   * 
-   ***********************/
-  const idioma = global?.db?.data?.chats[id]?.language ?? 'es';
+  const idioma = global?.db?.data?.chats[id]?.language || global.defaultLenguaje;
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
   const tradutor = _translate.handler.participantsUpdate
 
   const m = mconn
   if (opts['self']) return;
-  //if (m.conn.isInit) return;
   if (global.db.data == null) await loadDatabase();
   const chat = global.db.data.chats[id] || {};
   const botTt = global.db.data.settings[mconn?.conn?.user?.jid] || {};
@@ -1136,8 +1131,7 @@ export async function participantsUpdate({ id, participants, action }) {
  * @param {import("baileys").BaileysEventMap<unknown>['groups.update']} groupsUpdate
  */
 export async function groupsUpdate(groupsUpdate) {
-  //console.log(groupsUpdate)
-  const idioma = global.db.data.chats[groupsUpdate[0].id]?.language ?? 'es';
+  const idioma = global.db.data.chats[groupsUpdate[0].id]?.language || global.defaultLenguaje;
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
   const tradutor = _translate.handler.participantsUpdate
 
@@ -1149,7 +1143,8 @@ export async function groupsUpdate(groupsUpdate) {
     if (!id) continue;
     if (groupUpdate.size == NaN) continue;
     if (groupUpdate.subjectTime) continue;
-    const chats = global.db.data.chats[id]; let text = '';
+    const chats = global.db.data.chats[id]; 
+    let text = '';
     if (!chats?.detect) continue;
     if (groupUpdate?.desc) text = (chats?.sDesc || tradutor.texto5 || conn?.sDesc || '```Description has been changed to```\n@desc').replace('@desc', groupUpdate.desc);
     if (groupUpdate?.subject) text = (chats?.sSubject || tradutor.texto6 || conn?.sSubject || '```Subject has been changed to```\n@subject').replace('@subject', groupUpdate.subject);
@@ -1179,8 +1174,8 @@ export async function callUpdate(callUpdate) {
 
 export async function deleteUpdate(message) {
   const datas = global
-  const id = message.participant // Obtenga la identificación del usuario, solo dentro de esta función "deleteUpdate"
-  const idioma = datas.db.data.users[id]?.language ?? 'es';
+  const id = message?.participant 
+  const idioma = datas.db.data.users[id]?.language || global.defaultLenguaje;
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
   const tradutor = _translate.handler.deleteUpdate
 
@@ -1211,7 +1206,7 @@ ${tradutor.texto1[5]}`.trim();
 
 global.dfail = (type, m, conn) => {
   const datas = global
-  const idioma = datas.db.data.users[m.sender].language ?? 'es';
+  const idioma = datas.db.data.users[m.sender].language || global.defaultLenguaje;
   const _translate = JSON.parse(fs.readFileSync(`./src/languages/${idioma}.json`))
   const tradutor = _translate.handler.dfail
 

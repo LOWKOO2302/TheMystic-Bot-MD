@@ -13,6 +13,8 @@ global.authFile = `MysticSession`;
 // Error de m.isBaileys marcado como false fix temporal
 global.isBaileysFail = false
 
+global.defaultLenguaje = 'es';
+
 global.owner = [
   ['17745190032', '👑 Mystic - Creador 👑', true],
   ['17845198093', '💫 Mystic - Collaborator 2 💫', true],
@@ -65,6 +67,12 @@ global.titulowm = 'The Mystic - Bot';
 global.titulowm2 = `The Mystic - Bot`
 global.igfg = 'The Mystic - Bot';
 global.wait = '*_[ ⏳ ] Cargando..._*';
+
+/*global.imagen1 = fs.createReadStream('./src/assets/images/menu/languages/es/menu.png');
+global.imagen2 = fs.createReadStream('./src/assets/images/menu/languages/pt/menu.png');
+global.imagen3 = fs.createReadStream('./src/assets/images/menu/languages/fr/menu.png');
+global.imagen4 = fs.createReadStream('./src/assets/images/menu/languages/en/menu.png');
+global.imagen5 = fs.createReadStream('./src/assets/images/menu/languages/ru/menu.png');*/
 
 global.imagen1 = fs.readFileSync('./src/assets/images/menu/languages/es/menu.png');
 global.imagen2 = fs.readFileSync('./src/assets/images/menu/languages/pt/menu.png');
